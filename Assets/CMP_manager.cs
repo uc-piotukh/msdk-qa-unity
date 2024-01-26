@@ -59,11 +59,7 @@ public class CMP_manager : MonoBehaviour
     private void SetConfig()
     {
         Usercentrics.Instance.SettingsID = "";
-        Usercentrics.Instance.RulesetID = "";
-
-
-        var atps = Usercentrics.Instance.GetAdditionalConsentModeData();
-        
+        Usercentrics.Instance.RulesetID = "";        
 
 
         if (input_configuration.text == "")

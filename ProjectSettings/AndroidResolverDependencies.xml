@@ -1,6 +1,6 @@
 <dependencies>
   <packages>
-    <package>com.usercentrics.sdk:usercentrics-ui-unity:[2.11.3-unity]</package>
+    <package>com.usercentrics.sdk:usercentrics-ui-unity:[2.11.4-unity]</package>
     <package>org.jetbrains.kotlin:kotlin-stdlib-jdk8:[1.8.0]</package>
   </packages>
   <files>
@@ -57,8 +57,8 @@
     <file>Assets/Plugins/Android/com.google.android.flexbox.flexbox-3.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.material.material-1.6.1.aar</file>
     <file>Assets/Plugins/Android/com.google.guava.listenablefuture-1.0.jar</file>
-    <file>Assets/Plugins/Android/com.usercentrics.sdk.usercentrics-ui-unity-2.11.3-unity.aar</file>
-    <file>Assets/Plugins/Android/com.usercentrics.sdk.usercentrics-unity-2.11.3-unity.aar</file>
+    <file>Assets/Plugins/Android/com.usercentrics.sdk.usercentrics-ui-unity-2.11.4-unity.aar</file>
+    <file>Assets/Plugins/Android/com.usercentrics.sdk.usercentrics-unity-2.11.4-unity.aar</file>
     <file>Assets/Plugins/Android/org.jetbrains.annotations-13.0.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-android-extensions-runtime-1.8.0.jar</file>
     <file>Assets/Plugins/Android/org.jetbrains.kotlin.kotlin-parcelize-runtime-1.8.0.jar</file>
@@ -74,7 +74,7 @@
   </files>
   <settings>
     <setting name="androidAbis" value="arm64-v8a,armeabi-v7a,x86,x86_64" />
-    <setting name="bundleId" value="com.DefaultCompany.CMPQAApp" />
+    <setting name="bundleId" value="com.Usercentrics.MSDKQAApp" />
     <setting name="explodeAars" value="True" />
     <setting name="gradleBuildEnabled" value="True" />
     <setting name="gradlePropertiesTemplateEnabled" value="False" />
