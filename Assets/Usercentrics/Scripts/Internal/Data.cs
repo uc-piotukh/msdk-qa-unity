@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace Unity.Usercentrics
 {
@@ -257,6 +258,7 @@ namespace Unity.Usercentrics
         public bool showLegitimateInterestToggle;
         public bool usesNonCookieAccess;
         public string deviceStorageDisclosureUrl = null;
+        [Obsolete("replaces to deviceStorageDisclosureUrl, this field will be removed in the upcoming version")]
         public ConsentDisclosureObject deviceStorage = null;
         public bool usesCookies = false;
         public bool cookieRefresh;
@@ -400,6 +402,7 @@ namespace Unity.Usercentrics
         public string controllerId;
         public string tcString = null;
         public string uspString = null;
+        public string acString = null;
     }
 
     [Serializable]
@@ -511,5 +514,11 @@ namespace Unity.Usercentrics
         public string name;
         public string privacyPolicyUrl;
         public bool consent;
+    }
+    
+    [Serializable]
+    internal class UsercentricsConsentsHolder
+    {
+        public List<UsercentricsServiceConsent> consents;
     }
 }

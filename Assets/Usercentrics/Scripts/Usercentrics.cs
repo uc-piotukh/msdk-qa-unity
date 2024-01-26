@@ -447,6 +447,24 @@ namespace Unity.Usercentrics
             var acmData = JsonUtility.FromJson<AdditionalConsentModeData>(rawAcmData);
             return acmData;
         }
+        
+        /// <summary>
+        /// Get Consents
+        /// </summary>
+        /// <returns>Consents</returns>
+        public List<UsercentricsServiceConsent> GetConsents()
+        {
+            ensureSupportedPlatform();
+            logDebug("GetConsents Invoked");
+            ensureInitialized();
+
+            var rawConsents = UsercentricsPlatform?.GetConsents();
+            logDebug(rawConsents);
+
+            var usercentricsConsents = JsonUtility.FromJson<UsercentricsConsentsHolder>(rawConsents).consents;
+            
+            return usercentricsConsents;
+        }
         #endregion
 
         #region UTILS

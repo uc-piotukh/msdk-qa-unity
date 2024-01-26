@@ -124,6 +124,10 @@ namespace Unity.Usercentrics
         public string GetAdditionalConsentModeData()
         {
             return _usercentricsUnityClass.Value.CallStatic<string>("getAdditionalConsentModeData");
+        } 
+        public string GetConsents()
+        {
+            return _usercentricsUnityClass.Value.CallStatic<string>("getConsents");
         }
     }
 }

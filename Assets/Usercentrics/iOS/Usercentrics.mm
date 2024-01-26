@@ -118,4 +118,8 @@ extern "C" {
     char* ucGetAdditionalConsentModeData() {
         return toChar([[UsercentricsUsercentricsUnityCompanion companion] getAdditionalConsentModeData]);
     }
+    
+    char* ucGetConsents() {
+        return toChar([[UsercentricsUsercentricsUnityCompanion companion] getConsents]);
+    }
 }

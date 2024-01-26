@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class CMP_manager : MonoBehaviour
 {
-    private string string_settingsID = "";
-    private string string_rulesetID = "";
-
-
+   
     [SerializeField] private InputField input_configuration = null;
     [SerializeField] private Dropdown dropdown_init = null;
 
@@ -26,6 +23,13 @@ public class CMP_manager : MonoBehaviour
     [SerializeField] private Button button_reset = null;
     [SerializeField] private Button button_showfirstlayer = null;
     [SerializeField] private Button button_showsecondlayer = null;
+    [SerializeField] private Button button_settings_back = null;
+    [SerializeField] private Button button_general = null;
+
+    [SerializeField] private Toggle toggle_back_button = null;
+    [SerializeField] private GameObject panel_settings_general = null;
+
+
 
     //utils
     bool shouldCollectConsent = false;
@@ -34,12 +38,21 @@ public class CMP_manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        panel_settings_general.SetActive(false);
         button_apply.onClick.AddListener(() => { SetConfig(); });
         button_init.onClick.AddListener(() => { CMP_Init(); });
         button_reset.onClick.AddListener(() => { CMP_Reset(); });
 
         button_showfirstlayer.onClick.AddListener(() => { ShowFirstLayer(); });
         button_showsecondlayer.onClick.AddListener(() => { ShowSecondLayer(); });
+        button_general.onClick.AddListener(() => {
+            panel_settings_general.SetActive(true);
+        });
+        button_settings_back.onClick.AddListener(() => {
+            panel_settings_general.SetActive(false);
+        });
+
+        toggle_back_button.onValueChanged.AddListener((value) => { Usercentrics.Instance.Options.Android.DisableSystemBackButton = value; });
         input_configuration.text = Usercentrics.Instance.SettingsID;
     }
 
@@ -47,6 +60,11 @@ public class CMP_manager : MonoBehaviour
     {
         Usercentrics.Instance.SettingsID = "";
         Usercentrics.Instance.RulesetID = "";
+
+
+        var atps = Usercentrics.Instance.GetAdditionalConsentModeData();
+        
+
 
         if (input_configuration.text == "")
         {
@@ -149,6 +167,10 @@ public class CMP_manager : MonoBehaviour
     }
 
 
+    private void ShowSettings()
+    {
+
+    }
 
 
     //---------------------BANNER SETTINGS CRAP WE DONT TOUCH THAT YET---------------------------
