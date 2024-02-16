@@ -12,7 +12,7 @@ using System.Collections.Generic;
 /// - Show First and Second Layer
 ///
 /// It also contains an example of AppTrackingTransparency usage.
-/// 
+///
 /// Note that in a real integration the initialization should occur in some
 /// initial stage of your game, for example the splash screen.
 /// </summary>
@@ -58,8 +58,7 @@ namespace Unity.Usercentrics
                 {
                     UpdateServices(usercentricsReadyStatus.consents);
                 }
-            },
-            (errorMessage) =>
+            }, (errorMessage) =>
             {
                 // Log and collect the error...
             });
@@ -82,7 +81,7 @@ namespace Unity.Usercentrics
                 }
             });
         }
-        
+
         private void GetAttStatus()
         {
             var attStatus = AuthorizationStatus.NOT_DETERMINED;
@@ -119,7 +118,7 @@ namespace Unity.Usercentrics
 
         private void ShowCustomizedFirstLayer()
         {
-            Usercentrics.Instance.ShowFirstLayer(GetBannerSettings(), (usercentricsConsentUserResponse) =>
+            Usercentrics.Instance.ShowFirstLayer(GetBannerSettingsCustom(), (usercentricsConsentUserResponse) =>
             {
                 UpdateServices(usercentricsConsentUserResponse.consents);
             });
@@ -133,32 +132,71 @@ namespace Unity.Usercentrics
                                       variantName: "");
         }
 
+        private BannerSettings GetBannerSettingsCustom()
+        {
+            return new BannerSettings(generalStyleSettings: GetGeneralStyleSettingsCustom(),
+                                      firstLayerStyleSettings: GetFirstLayerStyleSettings(),
+                                      secondLayerStyleSettings: new SecondLayerStyleSettings(showCloseButton: true),
+                                      variantName: "");
+        }
+
         private GeneralStyleSettings GetGeneralStyleSettings()
         {
             return new GeneralStyleSettings(androidDisableSystemBackButton: true,
                                             androidStatusBarColor: "#f51d7e");
         }
 
+        private GeneralStyleSettings GetGeneralStyleSettingsCustom()
+        {
+            return new GeneralStyleSettings(androidDisableSystemBackButton: true,
+                                            androidStatusBarColor: "#af7ac5",
+                                            tabColor: "#ffffff",
+                                            textColor: "#ffffff",
+                                            layerBackgroundColor: "#001d3b",
+                                            layerBackgroundSecondaryColor: "#1f5791",
+                                            bordersColor: "#ffffff",
+                                            linkColor: "#00d0fc");
+        }
+
         private FirstLayerStyleSettings GetFirstLayerStyleSettings()
         {
-            var headerImageSettings = HeaderImageSettings.Extended(imageUrl: "https://drive.google.com/uc?export=download&id=1eGO0eowmuc1oLB75ZNktunHnVcZQVBUN");
+            var logoImageUrl = "https://drive.google.com/uc?export=download&id=1Cd6o0FBqsGVb3zZW8KRSUOmFAcCAvZ9o";
+            var headerImageSettings = HeaderImageSettings.Custom(imageUrl: logoImageUrl,
+                                                                 alignment: SectionAlignment.Center,
+                                                                 height: 100);
 
-            var buttons = new List<ButtonSettings> {
-                new ButtonSettings(type: ButtonType.AcceptAll, textSize: 13f, textColor: "#ffffff", backgroundColor: "#350aab", cornerRadius: 12, isAllCaps: true),
-                new ButtonSettings(type: ButtonType.More, textSize: 13f, textColor: "#ffffff", backgroundColor: "#350aab", cornerRadius: 12, isAllCaps: true)
+            var buttons = new List<ButtonSettings>
+            {
+                new ButtonSettings(type: ButtonType.More,
+                                   textSize: 10f,
+                                   textColor: "#001d3b",
+                                   backgroundColor: "#00d0fc",
+                                   cornerRadius: 12,
+                                   isAllCaps: false),
+                new ButtonSettings(type: ButtonType.AcceptAll,
+                                   textSize: 10f,
+                                   textColor: "#001d3b",
+                                   backgroundColor: "#00d0fc",
+                                   cornerRadius: 12,
+                                   isAllCaps: false)
             };
+
             var buttonLayout = ButtonLayout.Row(buttons);
 
-            var titleSettings = new TitleSettings(textSize: 20f, alignment: SectionAlignment.Center, textColor: "#ffffff");
+            var titleSettings = new TitleSettings(textSize: 24f, alignment: SectionAlignment.Center, textColor: "#FFFFFF");
 
-            var messageSettings = new MessageSettings(textSize: 12f, alignment: SectionAlignment.Start, textColor: "#bababa", linkTextColor: "#f51d7e", underlineLink: true);
+            var messageSettings = new MessageSettings(textSize: 10f,
+                                                      alignment: SectionAlignment.Start,
+                                                      textColor: "#e8daef",
+                                                      linkTextColor: "#00d0fc",
+                                                      underlineLink: true);
 
             return new FirstLayerStyleSettings(layout: UsercentricsLayout.PopupCenter,
                                                headerImage: headerImageSettings,
                                                title: titleSettings,
                                                message: messageSettings,
                                                buttonLayout: buttonLayout,
-                                               backgroundColor: "#000000",
+                                               backgroundColor: "#001d3b",
                                                cornerRadius: 30f,
                                                overlayColor: "#350aab",
                                                overlayAlpha: 0.5f);
@@ -166,16 +204,33 @@ namespace Unity.Usercentrics
 
         private ButtonLayout GridButtonLayoutExample()
         {
-            var buttons = new List<ButtonSettingsRow> {
+            var buttons = new List<ButtonSettingsRow>
+            {
                 new ButtonSettingsRow(
-                    new List<ButtonSettings> {
-                        new ButtonSettings(type: ButtonType.AcceptAll, textSize: 13f, textColor: "#ffffff", backgroundColor: "#350aab", cornerRadius: 12f, isAllCaps: true),
-                        new ButtonSettings(type: ButtonType.Save, textSize: 13f, textColor: "#ffffff", backgroundColor: "#350aab", cornerRadius: 12f, isAllCaps: true)
+                    new List<ButtonSettings>
+                    {
+                        new ButtonSettings(type: ButtonType.AcceptAll,
+                                           textSize: 13f, textColor: "#ffffff",
+                                           backgroundColor: "#350aab",
+                                           cornerRadius: 12f,
+                                           isAllCaps: true),
+                        new ButtonSettings(type: ButtonType.Save,
+                                           textSize: 13f,
+                                           textColor: "#ffffff",
+                                           backgroundColor: "#350aab",
+                                           cornerRadius: 12f,
+                                           isAllCaps: true)
                     }
                 ),
                 new ButtonSettingsRow(
-                    new List<ButtonSettings> {
-                        new ButtonSettings(type: ButtonType.More, textSize: 13f, textColor: "#ffffff", backgroundColor: "#350aab", cornerRadius: 12f, isAllCaps: true)
+                    new List<ButtonSettings>
+                    {
+                        new ButtonSettings(type: ButtonType.More,
+                                           textSize: 13f,
+                                           textColor: "#ffffff",
+                                           backgroundColor: "#350aab",
+                                           cornerRadius: 12f,
+                                           isAllCaps: true)
                     }
                 )
             };
@@ -184,9 +239,20 @@ namespace Unity.Usercentrics
 
         private ButtonLayout ColumnButtonLayoutExample()
         {
-            var buttons = new List<ButtonSettings> {
-                new ButtonSettings(type: ButtonType.AcceptAll, textSize: 13f, textColor: "#ffffff", backgroundColor: "#350aab", cornerRadius: 12, isAllCaps: true),
-                new ButtonSettings(type: ButtonType.More, textSize: 13f, textColor: "#ffffff", backgroundColor: "#350aab", cornerRadius: 12, isAllCaps: true)
+            var buttons = new List<ButtonSettings>
+            {
+                new ButtonSettings(type: ButtonType.AcceptAll,
+                                   textSize: 13f,
+                                   textColor: "#ffffff",
+                                   backgroundColor: "#350aab",
+                                   cornerRadius: 12,
+                                   isAllCaps: true),
+                new ButtonSettings(type: ButtonType.More,
+                                   textSize: 13f,
+                                   textColor: "#ffffff",
+                                   backgroundColor: "#350aab",
+                                   cornerRadius: 12,
+                                   isAllCaps: true)
             };
             return ButtonLayout.Column(buttons);
         }
