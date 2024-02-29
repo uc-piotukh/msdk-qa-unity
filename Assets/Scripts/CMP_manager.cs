@@ -38,6 +38,7 @@ public class CMP_manager : MonoBehaviour
     [SerializeField] private Toggle toggle_getcmpdata = null;
     [SerializeField] private Toggle toggle_preview = null;
     [SerializeField] private Toggle toggle_styles = null;
+    [SerializeField] private Toggle toggle_cid = null;
 
     [Header("Inputs:")]
     [SerializeField] private InputField input_configuration = null;
@@ -257,6 +258,59 @@ public class CMP_manager : MonoBehaviour
         text_controller.text = Usercentrics.Instance.GetControllerId().ToString();
     }
 
+    private void showSpecificFirstLayer(UsercentricsLayout layout)
+    {
+        BannerSettings bannerSettings;
+        if (toggle_styles.isOn) //isOn = uses styles
+        {
+            var titleSettings = new TitleSettings(textSize: float.Parse(input_font_size.text), alignment: SectionAlignment.Center);
+
+            var messageSettings = new MessageSettings(textSize: float.Parse(input_font_size.text), alignment: SectionAlignment.Start, textColor: "#170087", linkTextColor: "#5633ff", underlineLink: true);
+
+            bannerSettings = new BannerSettings(generalStyleSettings: new GeneralStyleSettings(androidDisableSystemBackButton: true),
+                                  firstLayerStyleSettings: new FirstLayerStyleSettings(layout: layout,
+                                           title: titleSettings,
+                                           message: messageSettings),
+        secondLayerStyleSettings: new SecondLayerStyleSettings(showCloseButton: true),
+                                  variantName: "");
+        }
+        else
+        {
+            bannerSettings = new BannerSettings();
+        }
+
+
+        Usercentrics.Instance.ShowFirstLayer(bannerSettings, usercentricsConsentUserResponse =>
+        {
+            UpdateServices(usercentricsConsentUserResponse.consents);
+            displayUserResponseValues(usercentricsConsentUserResponse);
+
+
+        });
+    }
+
+    private void ShowFirstLayer()
+    {
+        Usercentrics.Instance.ShowFirstLayer((usercentricsConsentUserResponse) =>
+        {
+            UpdateServices(usercentricsConsentUserResponse.consents);
+            displayUserResponseValues(usercentricsConsentUserResponse);
+
+
+        });
+
+    }
+
+    private void ShowSecondLayer()
+    {
+        Usercentrics.Instance.ShowSecondLayer(new BannerSettings(), (usercentricsConsentUserResponse) =>
+        {
+            UpdateServices(usercentricsConsentUserResponse.consents);
+            UpdateDisplayValues();
+            displayUserResponseValues(usercentricsConsentUserResponse);
+        });
+
+    }
 
     private void UpdateServices(List<UsercentricsServiceConsent> consents)
     {
@@ -270,11 +324,11 @@ public class CMP_manager : MonoBehaviour
         {
             Debug.Log("GetConsents:");
             List<UsercentricsServiceConsent> uc_consents = Usercentrics.Instance.GetConsents();
-            foreach(var consent in uc_consents)
+            foreach (var consent in uc_consents)
             {
                 Debug.Log("Consent: " + consent.dataProcessor + " / " + consent.status.ToString());
             }
-            
+
         }
 
         if (toggle_gettcfdata.isOn)
@@ -315,52 +369,12 @@ public class CMP_manager : MonoBehaviour
         }
     }
 
-    private void showSpecificFirstLayer(UsercentricsLayout layout)
+    private void displayUserResponseValues(UsercentricsConsentUserResponse response)
     {
-        BannerSettings bannerSettings;
-        if (toggle_styles.isOn) //isOn = uses styles
+        if (toggle_cid.isOn)
         {
-            var titleSettings = new TitleSettings(textSize: float.Parse(input_font_size.text), alignment: SectionAlignment.Center);
+            Debug.Log("Controller ID from User Response: "+response.controllerId);
 
-            var messageSettings = new MessageSettings(textSize: float.Parse(input_font_size.text), alignment: SectionAlignment.Start, textColor: "#170087", linkTextColor: "#5633ff", underlineLink: true);
-
-            bannerSettings = new BannerSettings(generalStyleSettings: new GeneralStyleSettings(androidDisableSystemBackButton: true),
-                                  firstLayerStyleSettings: new FirstLayerStyleSettings(layout: layout,
-                                           title: titleSettings,
-                                           message: messageSettings),
-        secondLayerStyleSettings: new SecondLayerStyleSettings(showCloseButton: true),
-                                  variantName: "");
         }
-        else
-        {
-            bannerSettings = new BannerSettings();
-        }
-
-
-        Usercentrics.Instance.ShowFirstLayer(bannerSettings, usercentricsConsentUserResponse =>
-        {
-            UpdateServices(usercentricsConsentUserResponse.consents);
-        });
     }
-
-    private void ShowFirstLayer()
-    {
-        Usercentrics.Instance.ShowFirstLayer((usercentricsConsentUserResponse) =>
-        {
-            UpdateServices(usercentricsConsentUserResponse.consents);
-        });
-
-    }
-
-    private void ShowSecondLayer()
-    {
-        Usercentrics.Instance.ShowSecondLayer(new BannerSettings(), (usercentricsConsentUserResponse) =>
-        {
-            UpdateServices(usercentricsConsentUserResponse.consents);
-            UpdateDisplayValues();
-        });
-
-    }
-
-
 }
