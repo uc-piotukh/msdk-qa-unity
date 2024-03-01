@@ -26,5 +26,6 @@ namespace Unity.Usercentrics
         void DisposeOnConsentMediationSubscription();
         string GetAdditionalConsentModeData();
         string GetConsents();
+        void SetPurposesFlatlyNotAllowed(string purposes);
     }
 }

@@ -468,6 +468,19 @@ namespace Unity.Usercentrics
         #endregion
 
         #region UTILS
+
+        public void SetPurposesFlatlyNotAllowed(int[] purposes)
+        {
+            ensureSupportedPlatform();
+
+            logDebug("SetPurposesFlatlyNotAllowed called");
+
+            var listHolder = new UsercentricsIntegerListHolder(purposes);
+
+            var rawPurposes = JsonUtility.ToJson(listHolder);
+            UsercentricsPlatform?.SetPurposesFlatlyNotAllowed(rawPurposes);
+        }
+
         private void ensureInitialized()
         {
             if (!IsInitialized)

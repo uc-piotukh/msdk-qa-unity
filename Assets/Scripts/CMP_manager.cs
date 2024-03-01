@@ -29,6 +29,8 @@ public class CMP_manager : MonoBehaviour
     [SerializeField] private Button button_general = null;
     [SerializeField] private Button button_style_general = null;
     [SerializeField] private Button button_sl_styled = null;
+    [SerializeField] private Button button_store_cid = null;
+    [SerializeField] private Button button_restore_session = null;
 
     [Header("Toggles:")]
     [SerializeField] private Toggle toggle_back_button = null;
@@ -39,11 +41,20 @@ public class CMP_manager : MonoBehaviour
     [SerializeField] private Toggle toggle_preview = null;
     [SerializeField] private Toggle toggle_styles = null;
     [SerializeField] private Toggle toggle_cid = null;
+    [SerializeField] private Toggle toggle_geo_banner = null;
+    [SerializeField] private Toggle toggle_geo_config = null;
+    [SerializeField] private Toggle toggle_limit_purposes = null;
+
+    [SerializeField] private Toggle toggle_getconsents_init = null;
+    [SerializeField] private Toggle toggle_gettcfdata_init = null;
+    [SerializeField] private Toggle toggle_getcmpdata_init = null;
+    [SerializeField] private Toggle toggle_cid_init = null;
 
     [Header("Inputs:")]
     [SerializeField] private InputField input_configuration = null;
     [SerializeField] private InputField input_language = null;
     [SerializeField] private InputField input_font_size = null;
+    [SerializeField] private InputField input_cid = null;
 
     [Header("GOs:")]
     [SerializeField] private GameObject panel_settings_general = null;
@@ -58,6 +69,7 @@ public class CMP_manager : MonoBehaviour
     string ccpa_preset = "282E1MUwpv79wz";
     string ruleset_preset = "_d8jnCQKnUC5pV";
     GameObject go_utils;
+    string stored_cid = "";
 
 
     void Awake()
@@ -87,6 +99,9 @@ public class CMP_manager : MonoBehaviour
         button_fl_pb.onClick.AddListener(() => { showSpecificFirstLayer(UsercentricsLayout.PopupBottom); });
         button_fl_s.onClick.AddListener(() => { showSpecificFirstLayer(UsercentricsLayout.Sheet); });
         button_fl_f.onClick.AddListener(() => { showSpecificFirstLayer(UsercentricsLayout.Full); });
+
+        button_store_cid.onClick.AddListener(() => { stored_cid = text_controller.text;});
+        button_restore_session.onClick.AddListener(() => { RestoreSession(stored_cid); });
 
         //init toggles
         toggle_back_button.onValueChanged.AddListener((value) => { Usercentrics.Instance.Options.Android.DisableSystemBackButton = value; });
@@ -128,14 +143,8 @@ public class CMP_manager : MonoBehaviour
 
     private void DeterminePreview(bool value)
     {
-        if (value)
-        {
-            Usercentrics.Instance.Options.Version = "preview";
-        }
-        else
-        {
-            Usercentrics.Instance.Options.Version = "latest";
-        }
+        if (value) {Usercentrics.Instance.Options.Version = "preview";}
+        else{ Usercentrics.Instance.Options.Version = "latest";}
     }
 
     private void DetermineStyles(bool value)
@@ -218,9 +227,17 @@ public class CMP_manager : MonoBehaviour
 
     private void CMP_Init()
     {
+        if (toggle_limit_purposes.isOn) {
+            int[] limited_purposes = {3,4,5,6};
+            Usercentrics.Instance.SetPurposesFlatlyNotAllowed(limited_purposes);
+            Debug.Log("Purposes 3,4,5,6 are no longer showing or gathering consent!");
+        }
+
         Usercentrics.Instance.Initialize((usercentricsReadyStatus) =>
         {
-            UpdateDisplayValues();
+            UpdateDisplayValues(usercentricsReadyStatus);
+            OutputLogsOnInit(usercentricsReadyStatus);
+            
             if (usercentricsReadyStatus.shouldCollectConsent)
             {
                 shouldCollectConsent = usercentricsReadyStatus.shouldCollectConsent;
@@ -249,11 +266,17 @@ public class CMP_manager : MonoBehaviour
         text_uc_status_init.text = "Not initialised";
     }
 
-    private void UpdateDisplayValues()
+    private void UpdateDisplayValues(UsercentricsReadyStatus status)
     {
         text_uc_status_init.text = "Initialised";
-        text_consent.text = shouldCollectConsent.ToString();
-        text_config.text = Usercentrics.Instance.SettingsID;
+
+        //this is only for rulesets
+        if(Usercentrics.Instance.RulesetID != "")
+        {
+            text_consent.text = status.geolocationRuleset.bannerRequiredAtLocation.ToString();
+            text_config.text = status.geolocationRuleset.activeSettingsId;
+        }
+     
         text_location.text = Usercentrics.Instance.GetCmpData().userLocation.countryCode.ToString() + "/" + Usercentrics.Instance.GetCmpData().userLocation.regionCode.ToString();
         text_controller.text = Usercentrics.Instance.GetControllerId().ToString();
     }
@@ -306,7 +329,6 @@ public class CMP_manager : MonoBehaviour
         Usercentrics.Instance.ShowSecondLayer(new BannerSettings(), (usercentricsConsentUserResponse) =>
         {
             UpdateServices(usercentricsConsentUserResponse.consents);
-            UpdateDisplayValues();
             displayUserResponseValues(usercentricsConsentUserResponse);
         });
 
@@ -367,6 +389,92 @@ public class CMP_manager : MonoBehaviour
             Debug.Log("GetCMPData:");
             Debug.Log(Usercentrics.Instance.GetCmpData());
         }
+    }
+
+    private void OutputLogsOnInit(UsercentricsReadyStatus status) {
+
+        if (toggle_getconsents_init.isOn)
+        {
+            Debug.Log("GetConsents:");
+            List<UsercentricsServiceConsent> uc_consents = Usercentrics.Instance.GetConsents();
+            foreach (var consent in uc_consents)
+            {
+                Debug.Log("Consent: " + consent.dataProcessor + " / " + consent.status.ToString());
+            }
+
+        }
+
+        if (toggle_gettcfdata_init.isOn)
+        {
+            UsercentricsVariant activeVariant = Usercentrics.Instance.GetCmpData().activeVariant;
+            if (activeVariant == UsercentricsVariant.TCF)
+            {
+
+                Debug.Log("GetTCFData:");
+                Usercentrics.Instance.GetTCFData((tcfData) =>
+                {
+                    /*
+                    var purposes = tcfData.purposes;
+                    var specialPurposes = tcfData.specialPurposes;
+                    var features = tcfData.features;
+                    var specialFeatures = tcfData.specialFeatures;
+                    var stacks = tcfData.stacks;
+                    var vendors = tcfData.vendors;
+
+                    */
+
+
+                    // TCString
+
+                    var tcString = tcfData.tcString;
+                    Debug.Log(tcString);
+                });
+            }
+            else
+            {
+                Debug.Log("GetTCFData is enabled, but active variant is " + activeVariant.ToString());
+            }
+        }
+        if (toggle_getcmpdata_init.isOn)
+        {
+            Debug.Log("GetCMPData:");
+            Debug.Log(Usercentrics.Instance.GetCmpData());
+        }
+        if (toggle_geo_banner.isOn)
+        {
+            Debug.Log("status.geolocationRuleset.bannerRequiredAtLocation:");
+            Debug.Log(status.geolocationRuleset.bannerRequiredAtLocation.ToString());
+        }
+        if (toggle_geo_config.isOn)
+        {
+            Debug.Log("status.geolocationRuleset.activeSettingsId:");
+            Debug.Log(status.geolocationRuleset.activeSettingsId);
+        }
+    }
+
+
+    private void RestoreSession(string cid) {
+        if (cid == "")
+        {
+            Debug.Log("CID empty, please first set CID using the -Store CID- button, this will take current CID");
+            return;
+        }
+
+        Usercentrics.Instance.RestoreUserSession(cid, (status => {
+
+            UpdateDisplayValues(status);
+
+            if (status.shouldCollectConsent)
+            {
+                Debug.Log("status.shouldCollectConsent: "+ status.shouldCollectConsent.ToString());
+            }
+            else
+            {
+                Debug.Log("status.shouldCollectConsent: " + status.shouldCollectConsent.ToString());
+            }
+        }), (errorString => {
+            Debug.LogError("Session Restore Error: " + errorString);
+        }));
     }
 
     private void displayUserResponseValues(UsercentricsConsentUserResponse response)

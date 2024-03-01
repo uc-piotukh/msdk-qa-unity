@@ -122,4 +122,8 @@ extern "C" {
     char* ucGetConsents() {
         return toChar([[UsercentricsUsercentricsUnityCompanion companion] getConsents]);
     }
+
+    void ucSetPurposesFlatlyNotAllowed(const char* purposes) {
+        [[UsercentricsUsercentricsUnityCompanion companion] setPurposesFlatlyNotAllowedPurposes:UcCreateNSString(purposes)];
+    }
 }

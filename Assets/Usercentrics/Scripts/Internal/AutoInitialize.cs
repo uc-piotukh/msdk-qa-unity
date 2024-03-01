@@ -16,16 +16,21 @@ namespace Unity.Usercentrics
                 return;
             }
 
-            Usercentrics.Instance.Initialize((usercentricsReadyStatus) =>
+            Usercentrics.Instance.Initialize((status) =>
             {
-                if (usercentricsReadyStatus.shouldCollectConsent)
+                if (status.geolocationRuleset.bannerRequiredAtLocation == false)
+                {
+                    return;
+                }
+
+                if (status.shouldCollectConsent)
                 {
                     ShowFirstLayer();
                 }
             },
             (errorMessage) =>
             {
-                Debug.Log("[USERCENTRICS] AutoInitialize is " + errorMessage);
+                Debug.Log("[USERCENTRICS] Error on AutoInitialize " + errorMessage);
             });
         }
 

@@ -48,15 +48,15 @@ namespace Unity.Usercentrics
 
         private void InitAndShowConsentManagerIfNeeded()
         {
-            Usercentrics.Instance.Initialize((usercentricsReadyStatus) =>
+            Usercentrics.Instance.Initialize((status) =>
             {
-                if (usercentricsReadyStatus.shouldCollectConsent)
+                if (status.shouldCollectConsent)
                 {
                     ShowFirstLayer();
                 }
                 else
                 {
-                    UpdateServices(usercentricsReadyStatus.consents);
+                    UpdateServices(status.consents);
                 }
             }, (errorMessage) =>
             {

@@ -69,10 +69,12 @@ namespace Unity.Usercentrics
         
         [DllImport("__Internal")]
         private static extern string ucGetAdditionalConsentModeData();
-        
-                
+
         [DllImport("__Internal")]
         private static extern string ucGetConsents();
+
+        [DllImport("__Internal")]
+        private static extern string ucSetPurposesFlatlyNotAllowed(string purposes);
 
         public void Initialize(string initArgsJson)
         {
@@ -182,6 +184,11 @@ namespace Unity.Usercentrics
         public string GetConsents()
         {
             return ucGetConsents();
+        }
+
+        public void SetPurposesFlatlyNotAllowed(string purposes)
+        {
+            ucSetPurposesFlatlyNotAllowed(purposes);
         }
     }
 }

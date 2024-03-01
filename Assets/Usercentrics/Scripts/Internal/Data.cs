@@ -74,6 +74,8 @@ namespace Unity.Usercentrics
     {
         public bool shouldCollectConsent;
         public List<UsercentricsServiceConsent> consents;
+        public GeolocationRuleset geolocationRuleset;
+        public UsercentricsLocation location;
     }
 
     [Serializable]
@@ -515,10 +517,28 @@ namespace Unity.Usercentrics
         public string privacyPolicyUrl;
         public bool consent;
     }
-    
+
     [Serializable]
     internal class UsercentricsConsentsHolder
     {
         public List<UsercentricsServiceConsent> consents;
+    }
+
+    [Serializable]
+    public class GeolocationRuleset
+    {
+        public String activeSettingsId;
+        public bool bannerRequiredAtLocation;
+    }
+
+    [Serializable]
+    internal class UsercentricsIntegerListHolder
+    {
+        public int[] list;
+
+        internal UsercentricsIntegerListHolder(int[] list)
+        {
+            this.list = list;
+        }
     }
 }
