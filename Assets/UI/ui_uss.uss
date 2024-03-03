@@ -1,0 +1,50 @@
+.unity-text-element {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 255);
+}
+
+.unity-label {
+    color: rgba(255, 255, 255, 255);
+    margin-left: -1px;
+    margin-right: -1px;
+    margin-top: -1px;
+    margin-bottom: -1px;
+}
+
+.unity-label_title {
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+}
+
+.unity-button:hover {
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+    background-color: rgba(219, 219, 166, 255);
+}
+
+.unity-button {
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+.unity-button:active {
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+    background-color: rgba(231, 231, 147, 255);
+    -unity-font-style: bold;
+}
+
+.sliderint-textfield {
+}
+
+.unity-text-field {
+    font-size: 12px;
+    -unity-text-align: middle-center;
+    min-height: 35px;
+}

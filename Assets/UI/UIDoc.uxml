@@ -1,0 +1,129 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/ui_uss.uss?fileID=7433441132597879392&amp;guid=f8fede3668754439a9774e6016645956&amp;type=3#ui_uss" />
+    <ui:VisualElement name="ve_globalwrapper" style="background-color: rgb(51, 0, 96); width: 100%; height: 100%; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 2%;">
+        <ui:VisualElement name="ve_SAFEAREA" style="padding-top: 10%;">
+            <ui:VisualElement name="ve_ui_main" style="display: none;">
+                <ui:VisualElement name="ve_init">
+                    <ui:Label text="Select Settings or Ruleset to initialise with:" display-tooltip-when-elided="true" style="align-items: stretch; justify-content: center; -unity-text-align: upper-center;" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: center; width: 100%;">
+                        <ui:VisualElement style="width: 50%;">
+                            <ui:DropdownField index="0" name="df_configuration" choices="TCF Preset" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="width: 50%;">
+                            <ui:TextField picking-mode="Ignore" text="WGSo-AvsCxM5d2" name="tf_customconfig" readonly="true" value="WGSo-AvsCxM5d2" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-around; flex-grow: 1; width: 100%;">
+                        <ui:VisualElement style="width: 50%;">
+                            <ui:Button text="Init" display-tooltip-when-elided="true" name="b_init" style="flex-grow: 1; width: auto; background-color: rgb(146, 255, 184);" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="width: 50%;">
+                            <ui:Button text="Reset" display-tooltip-when-elided="true" name="b_reset" style="flex-grow: 1; width: auto; background-color: rgb(255, 148, 148);" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ve_init_status" style="align-items: center;">
+                    <ui:Label text="Init status" display-tooltip-when-elided="true" />
+                    <ui:Label text="NOT INITIALISED" display-tooltip-when-elided="true" name="l_initstatus" style="-unity-font-style: bold; color: rgb(255, 255, 0);" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ve_layers">
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                        <ui:VisualElement style="flex-grow: 1; max-width: none; min-width: auto; width: 50%;">
+                            <ui:Label text="Remote Styling" display-tooltip-when-elided="true" style="align-items: center; width: 100%; -unity-text-align: upper-center;" />
+                            <ui:Button text="First Layer" display-tooltip-when-elided="true" name="b_fl_remote" />
+                            <ui:Button text="Second Layer" display-tooltip-when-elided="true" name="b_sl_remote" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-grow: 1; min-width: 50%; min-height: auto; width: 50%;">
+                            <ui:Label text="Local Styling" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                            <ui:Button text="FL - Popup Center" display-tooltip-when-elided="true" name="b_fl_pc" />
+                            <ui:Button text="FL - Popup Bottom" display-tooltip-when-elided="true" name="b_fl_pb" />
+                            <ui:Button text="FL - Sheet" display-tooltip-when-elided="true" name="b_fl_s" />
+                            <ui:Button text="FL - Full" display-tooltip-when-elided="true" name="b_fl_f" />
+                            <ui:Button text="SL Styled (WIP)" display-tooltip-when-elided="true" name="b_sl_style" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ve_logs" style="justify-content: space-around;">
+                    <ui:Label text="0a82927d245b88e63cf3d4656e691b0d31315d91c047fc57e1b257510e523710" display-tooltip-when-elided="true" name="l_cid" style="align-items: center; -unity-text-align: upper-center; font-size: 9px; justify-content: flex-end; margin-top: 5px; margin-bottom: 5px; margin-left: 0; margin-right: 0; -unity-font: url(&apos;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#Arial&apos;); -unity-font-style: bold; color: rgb(189, 255, 252);" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-around;">
+                        <ui:VisualElement style="flex-grow: 1; max-width: 50%; min-width: 50%; -unity-text-align: upper-right; padding-right: 5px;">
+                            <ui:Label text="Location" display-tooltip-when-elided="true" />
+                            <ui:Label text="Active Configuration" display-tooltip-when-elided="true" />
+                            <ui:Label text="Banner Required" display-tooltip-when-elided="true" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-grow: 1; min-width: 50%; min-height: auto; padding-left: 5px;">
+                            <ui:Label text="n/a" display-tooltip-when-elided="true" name="l_location" />
+                            <ui:Label text="n/a" display-tooltip-when-elided="true" name="l_activeconfig" />
+                            <ui:Label text="n/a" display-tooltip-when-elided="true" name="l_bannerrequired" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="ve_settings">
+                    <ui:Label text="Settings" display-tooltip-when-elided="true" style="-unity-text-align: upper-left;" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: flex-start;">
+                        <ui:VisualElement style="flex-grow: 1; max-width: 50%; min-width: auto; width: 50%;">
+                            <ui:Button text="Init &amp; Logging Settings" display-tooltip-when-elided="true" name="b_settings" />
+                            <ui:Button text="Local Styling (WIP)" display-tooltip-when-elided="true" name="b_styling" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-grow: 1; min-width: 50%; min-height: auto; width: 50%;">
+                            <ui:Button text="Store Controller ID" display-tooltip-when-elided="true" name="b_store_cid" tooltip="Locally store a loaded Controller ID once the SDK has initialised. Can be used to restore session." />
+                            <ui:Button text="Restore Session" display-tooltip-when-elided="true" name="b_restore_session" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: column; justify-content: space-between; align-items: flex-start;">
+                        <ui:Label text="Stored CID (value resets on app restart):" display-tooltip-when-elided="true" />
+                    </ui:VisualElement>
+                    <ui:Label text="0a82927d245b88e63cf3d4656e691b0d31315d91c047fc57e1b257510e523710" display-tooltip-when-elided="true" name="l_storedcid" style="align-items: center; -unity-text-align: upper-center; font-size: 9px; justify-content: flex-end; margin-top: 5px; margin-bottom: 5px; margin-left: 0; margin-right: 0; -unity-font: url(&apos;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#Arial&apos;); -unity-font-style: bold; color: rgb(189, 255, 252);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ve_ui_style" style="display: flex; visibility: visible;">
+                <ui:VisualElement name="ve_settings_wrapper" style="width: 100%; height: 100%; padding-left: 5%; padding-right: 5%; padding-top: 5%; padding-bottom: 5%;">
+                    <ui:VisualElement name="ve_settings_wrapper" style="width: 100%; height: 100%; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 2%; background-color: rgba(19, 102, 161, 0.48); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 11px; border-bottom-left-radius: 11px; border-top-right-radius: 11px; border-bottom-right-radius: 11px; min-width: auto;">
+                        <ui:SliderInt picking-mode="Ignore" label="textSize" value="12" high-value="20" low-value="10" show-input-field="true" name="si_fontsize" style="min-height: 35px; flex-direction: row; justify-content: space-around; align-items: stretch; flex-wrap: nowrap; width: 100%;" />
+                        <ui:SliderInt picking-mode="Ignore" label="WIP" value="12" high-value="20" low-value="10" show-input-field="true" style="min-height: 35px; flex-direction: row; justify-content: flex-start; align-items: stretch; flex-wrap: nowrap; display: none;" />
+                        <ui:SliderInt picking-mode="Ignore" label="WIP" value="12" high-value="20" low-value="10" show-input-field="true" style="min-height: 35px; flex-direction: row; justify-content: flex-start; align-items: stretch; flex-wrap: nowrap; display: none;" />
+                        <ui:SliderInt picking-mode="Ignore" label="WIP" value="12" high-value="20" low-value="10" show-input-field="true" style="min-height: 35px; flex-direction: row; justify-content: flex-start; align-items: stretch; flex-wrap: nowrap; display: none;" />
+                        <ui:TextField picking-mode="Ignore" label="textColor" value="#000000" text="#000000" name="tf_textColor" max-length="7" style="justify-content: flex-start; align-items: stretch; width: 100%; -unity-text-align: middle-left;" />
+                        <ui:TextField picking-mode="Ignore" label="layerBackgroundColor" value="#FF8181" text="#FF8181" name="tf_layerBackgroundColor" max-length="7" style="justify-content: flex-start; align-items: stretch; width: 100%; -unity-text-align: middle-left;" />
+                        <ui:TextField picking-mode="Ignore" label="linkColor" value="#330060" text="#330060" name="tf_linkColor" max-length="7" style="justify-content: flex-start; align-items: stretch; width: 100%; -unity-text-align: middle-left;" />
+                        <ui:TextField picking-mode="Ignore" label="bordersColor" value="#330060" text="#330060" name="tf_bordersColor" max-length="7" style="justify-content: flex-start; align-items: stretch; width: 100%; -unity-text-align: middle-left;" />
+                        <ui:VisualElement style="align-items: flex-end; justify-content: flex-end; flex-grow: 1;">
+                            <ui:Button text="Back" display-tooltip-when-elided="true" name="b_style_back" style="width: 50%;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ve_ui_settings" style="display: none; visibility: visible;">
+                <ui:VisualElement name="ve_settings_wrapper" style="width: 100%; height: 100%; padding-left: 5%; padding-right: 5%; padding-top: 5%; padding-bottom: 5%;">
+                    <ui:VisualElement name="ve_settings_wrapper" style="width: 100%; height: 100%; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 2%; background-color: rgba(19, 102, 161, 0.48); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 11px; border-bottom-left-radius: 11px; border-top-right-radius: 11px; border-bottom-right-radius: 11px;">
+                        <ui:VisualElement style="align-items: flex-start; margin-bottom: 10px;">
+                            <ui:Label text="Init Settings" display-tooltip-when-elided="true" class="unity-label_title" style="-unity-font-style: bold;" />
+                            <ui:Toggle label="Disable System Back Button (Android Only)" name="t_androidbackbutton" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="Consent Mediation" name="t_consentmediation" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="Point to Preview" name="t_preview" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="Limit TCF Purposes" name="t_limitpurposes" style="flex-direction: row-reverse; justify-content: center;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="align-items: flex-start; margin-bottom: 10px;">
+                            <ui:Label text="Log output on Init" display-tooltip-when-elided="true" class="unity-label_title" style="flex-grow: 1; -unity-font-style: bold;" />
+                            <ui:Toggle label="GetConsents" name="t_getconsents_init" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="GetCMPData" name="t_getcmpdata_init" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="GetTCFData (TCF only)" name="t_gettcfdata_init" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="Geo: Banner Required At Location" name="t_geo_banner_init" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="Geo: Active Config" name="t_geo_config_init" style="flex-direction: row-reverse; justify-content: center;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="align-items: flex-start; margin-bottom: 10px;">
+                            <ui:Label text="Log output on Interaction" display-tooltip-when-elided="true" class="unity-label_title" style="-unity-font-style: bold;" />
+                            <ui:Toggle label="GetCMPData" name="t_getcmpdata" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="GetTCFData (TCF only)" name="t_gettcfdata" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="Controller ID" name="t_cid" style="flex-direction: row-reverse; justify-content: center;" />
+                            <ui:Toggle label="GetConsents" name="t_getconsents" style="flex-direction: row-reverse; justify-content: flex-start;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="align-items: flex-end; justify-content: flex-end; flex-grow: 0; flex-shrink: 0;">
+                            <ui:Button text="Back" display-tooltip-when-elided="true" name="b_settings_back" style="width: 50%; flex-shrink: 1; justify-content: space-around; flex-direction: column;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

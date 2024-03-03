@@ -6,160 +6,22 @@ using UnityEngine.UI;
 public class CMP_manager : MonoBehaviour
 {
     //[Header("")]
-    [SerializeField] private Dropdown dropdown_init = null;
-
-    [Header("Text fields")]
-    [SerializeField] private Text text_controller = null;
-    [SerializeField] private Text text_location = null;
-    [SerializeField] private Text text_config = null;
-    [SerializeField] private Text text_consent = null;
-    [SerializeField] private Text text_uc_status_init = null;
-    [SerializeField] private Text text_uc_status_styles = null;
-
-    [Header("Buttons:")]
-    [SerializeField] private Button button_init = null;
-    [SerializeField] private Button button_reset = null;
-    [SerializeField] private Button button_showfirstlayer = null;
-    [SerializeField] private Button button_fl_pc = null;
-    [SerializeField] private Button button_fl_pb = null;
-    [SerializeField] private Button button_fl_s = null;
-    [SerializeField] private Button button_fl_f = null;
-    [SerializeField] private Button button_showsecondlayer = null;
-    [SerializeField] private Button button_settings_back = null;
-    [SerializeField] private Button button_general = null;
-    [SerializeField] private Button button_style_general = null;
-    [SerializeField] private Button button_sl_styled = null;
-    [SerializeField] private Button button_store_cid = null;
-    [SerializeField] private Button button_restore_session = null;
-
-    [Header("Toggles:")]
-    [SerializeField] private Toggle toggle_back_button = null;
-    [SerializeField] private Toggle toggle_mediation = null;
-    [SerializeField] private Toggle toggle_getconsents = null;
-    [SerializeField] private Toggle toggle_gettcfdata = null;
-    [SerializeField] private Toggle toggle_getcmpdata = null;
-    [SerializeField] private Toggle toggle_preview = null;
-    [SerializeField] private Toggle toggle_styles = null;
-    [SerializeField] private Toggle toggle_cid = null;
-    [SerializeField] private Toggle toggle_geo_banner = null;
-    [SerializeField] private Toggle toggle_geo_config = null;
-    [SerializeField] private Toggle toggle_limit_purposes = null;
-
-    [SerializeField] private Toggle toggle_getconsents_init = null;
-    [SerializeField] private Toggle toggle_gettcfdata_init = null;
-    [SerializeField] private Toggle toggle_getcmpdata_init = null;
-    [SerializeField] private Toggle toggle_cid_init = null;
-
-    [Header("Inputs:")]
-    [SerializeField] private InputField input_configuration = null;
-    [SerializeField] private InputField input_language = null;
-    [SerializeField] private InputField input_font_size = null;
-    [SerializeField] private InputField input_cid = null;
-
-    [Header("GOs:")]
-    [SerializeField] private GameObject panel_settings_general = null;
-    [SerializeField] private GameObject group_general = null;
-    [SerializeField] private GameObject group_style_general = null;
-    [HideInInspector] public ManagerUtilities utilities;
+    
+    public UIBehaviour ui_ref;
 
     //utils
     bool shouldCollectConsent = false;
+    GameObject go_utils;
+    string stored_cid = "";
     string tcf_preset = "WGSo-AvsCxM5d2";
     string gdpr_preset = "r4Tyqt9N1aLq_d";
     string ccpa_preset = "282E1MUwpv79wz";
     string ruleset_preset = "_d8jnCQKnUC5pV";
-    GameObject go_utils;
-    string stored_cid = "";
 
+    
+    
 
-    void Awake()
-    {
-        go_utils = new GameObject("utilities");
-        utilities = go_utils.AddComponent<ManagerUtilities>();
-        utilities.ref_manager = this;
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        panel_settings_general.SetActive(false);
-        button_init.onClick.AddListener(() => { CMP_Init(); });
-        button_reset.onClick.AddListener(() => { CMP_Reset(); });
-
-        button_showfirstlayer.onClick.AddListener(() => { ShowFirstLayer(); });
-        button_showsecondlayer.onClick.AddListener(() => { ShowSecondLayer(); });
-
-        //settings buttons
-        button_general.onClick.AddListener(() => { ShowGeneralSettings(true); });
-        button_style_general.onClick.AddListener(() => { ShowGeneralStyleSettings(true); });
-        button_settings_back.onClick.AddListener(() => { HideAllSettings(); });
-
-        button_fl_pc.onClick.AddListener(() => { showSpecificFirstLayer(UsercentricsLayout.PopupCenter); });
-        button_fl_pb.onClick.AddListener(() => { showSpecificFirstLayer(UsercentricsLayout.PopupBottom); });
-        button_fl_s.onClick.AddListener(() => { showSpecificFirstLayer(UsercentricsLayout.Sheet); });
-        button_fl_f.onClick.AddListener(() => { showSpecificFirstLayer(UsercentricsLayout.Full); });
-
-        button_store_cid.onClick.AddListener(() => { stored_cid = text_controller.text;});
-        button_restore_session.onClick.AddListener(() => { RestoreSession(stored_cid); });
-
-        //init toggles
-        toggle_back_button.onValueChanged.AddListener((value) => { Usercentrics.Instance.Options.Android.DisableSystemBackButton = value; });
-        toggle_mediation.onValueChanged.AddListener((value) => { Usercentrics.Instance.Options.ConsentMediation = value; });
-        toggle_preview.onValueChanged.AddListener((value) => { DeterminePreview(value); });
-        toggle_styles.onValueChanged.AddListener((value) => { DetermineStyles(value); });
-
-
-        //input_configuration.text = Usercentrics.Instance.SettingsID;
-        ChangeDropdown(0);
-        input_configuration.onValueChanged.AddListener((value) => { SetConfig(); });
-        input_language.onValueChanged.AddListener((value) => { Usercentrics.Instance.Options.DefaultLanguage = value; });
-        dropdown_init.onValueChanged.AddListener((value) => { ChangeDropdown(value); });
-    }
-
-
-
-    private void ShowGeneralSettings(bool showing)
-    {
-        panel_settings_general.SetActive(showing);
-        group_general.SetActive(showing);
-        group_style_general.SetActive(!showing);
-    }
-
-    private void ShowGeneralStyleSettings(bool showing)
-    {
-        panel_settings_general.SetActive(showing);
-        group_general.SetActive(!showing);
-        group_style_general.SetActive(showing);
-    }
-
-
-    private void HideAllSettings()
-    {
-        panel_settings_general.SetActive(false);
-        group_general.SetActive(false);
-        group_style_general.SetActive(!false);
-    }
-
-    private void DeterminePreview(bool value)
-    {
-        if (value) {Usercentrics.Instance.Options.Version = "preview";}
-        else{ Usercentrics.Instance.Options.Version = "latest";}
-    }
-
-    private void DetermineStyles(bool value)
-    {
-        if (value)
-        {
-            text_uc_status_styles.text = "Using styles";
-        }
-        else
-        {
-            text_uc_status_styles.text = "Not using styles";
-        }
-    }
-
-    private void ChangeDropdown(int value)
+    public void ChangeDropdown(string value)
     {
         Usercentrics.Instance.SettingsID = "";
         Usercentrics.Instance.RulesetID = "";
@@ -167,71 +29,81 @@ public class CMP_manager : MonoBehaviour
         switch (value)
         {
             //preset tcf
-            case 0:
-                input_configuration.text = tcf_preset;
-                Usercentrics.Instance.SettingsID = input_configuration.text;
+            case "TCF Preset":
+                ui_ref.UpdateTextInputValue(tcf_preset);
+                ui_ref.DisableTextInput(true);
+                Usercentrics.Instance.SettingsID = tcf_preset;
                 break;
             //preset gdpr
-            case 1:
-                input_configuration.text = gdpr_preset;
-
-                Usercentrics.Instance.SettingsID = input_configuration.text;
+            case "GDPR Preset":
+                ui_ref.UpdateTextInputValue(gdpr_preset);
+                ui_ref.DisableTextInput(true);
+                Usercentrics.Instance.SettingsID = gdpr_preset;
                 break;
             //preset ccpa
-            case 2:
-                input_configuration.text = ccpa_preset;
-                Usercentrics.Instance.SettingsID = input_configuration.text;
+            case "CCPA Preset":
+                ui_ref.UpdateTextInputValue(ccpa_preset);
+                ui_ref.DisableTextInput(true);
+                Usercentrics.Instance.SettingsID = ccpa_preset;
                 break;
             //preset ruleset
-            case 3:
-                input_configuration.text = ruleset_preset;
-                Usercentrics.Instance.RulesetID = input_configuration.text;
+            case "Ruleset Preset":
+                ui_ref.UpdateTextInputValue(ruleset_preset);
+                ui_ref.DisableTextInput(true);
+                Usercentrics.Instance.RulesetID = ruleset_preset;
                 break;
             //own sid
-            case 4:
-                input_configuration.text = "";
+            case "Own Config":
+                ui_ref.DisableTextInput(false);
+                ui_ref.UpdateTextInputValue("");
                 break;
             //own ruleset
-            case 5:
-                input_configuration.text = "";
+            case "Own Ruleset":
+                ui_ref.DisableTextInput(false);
+                ui_ref.UpdateTextInputValue("");
                 break;
 
             default:
-                input_configuration.text = tcf_preset;
-                Usercentrics.Instance.SettingsID = input_configuration.text;
+                ui_ref.UpdateTextInputValue(tcf_preset);
+                ui_ref.DisableTextInput(true);
+                Usercentrics.Instance.SettingsID = tcf_preset;
                 break;
         }
     }
 
-    private void SetConfig()
+    
+    public void SetConfig(string dropdown_value, string input_value)
     {
         Usercentrics.Instance.SettingsID = "";
         Usercentrics.Instance.RulesetID = "";
 
 
 
-        switch (dropdown_init.value)
+        switch (dropdown_value)
         {
 
             //own sid
-            case 4:
-                Usercentrics.Instance.SettingsID = input_configuration.text;
+            case "Own Config":
+                Usercentrics.Instance.SettingsID = input_value;
                 break;
             //own ruleset
-            case 5:
-                Usercentrics.Instance.RulesetID = input_configuration.text;
+            case "Own Ruleset":
+                Usercentrics.Instance.RulesetID = input_value;
                 break;
         }
 
     }
+    
 
-    private void CMP_Init()
+    public void CMP_Init()
     {
-        if (toggle_limit_purposes.isOn) {
+        
+        if (ui_ref.toggle_limitpurposes.value) {
             int[] limited_purposes = {3,4,5,6};
             Usercentrics.Instance.SetPurposesFlatlyNotAllowed(limited_purposes);
             Debug.Log("Purposes 3,4,5,6 are no longer showing or gathering consent!");
         }
+        
 
         Usercentrics.Instance.Initialize((usercentricsReadyStatus) =>
         {
@@ -250,99 +122,95 @@ public class CMP_manager : MonoBehaviour
         },
         (errorMessage) =>
         {
-            text_uc_status_init.text = "UC init failed";
+            ui_ref.label_initstatus.text = "UC init failed";
             Debug.Log("Init Error: " + errorMessage);
         });
     }
 
-    private void CMP_Reset()
+    public void CMP_Reset()
     {
         Usercentrics.Instance.Reset();
 
-        text_consent.text = "n/a";
-        text_config.text = "n/a";
-        text_location.text = "n/a";
-        text_controller.text = "n/a";
-        text_uc_status_init.text = "Not initialised";
+        ui_ref.label_bannerrequired.text = "n/a";
+        ui_ref.label_activeconfig.text = "n/a";
+        ui_ref.label_location.text = "n/a";
+        ui_ref.label_cid.text = "n/a";
+        ui_ref.label_initstatus.text = "Not initialised";
+
     }
 
     private void UpdateDisplayValues(UsercentricsReadyStatus status)
     {
-        text_uc_status_init.text = "Initialised";
-
-        //this is only for rulesets
-        if(Usercentrics.Instance.RulesetID != "")
-        {
-            text_consent.text = status.geolocationRuleset.bannerRequiredAtLocation.ToString();
-            text_config.text = status.geolocationRuleset.activeSettingsId;
-        }
-     
-        text_location.text = Usercentrics.Instance.GetCmpData().userLocation.countryCode.ToString() + "/" + Usercentrics.Instance.GetCmpData().userLocation.regionCode.ToString();
-        text_controller.text = Usercentrics.Instance.GetControllerId().ToString();
+        ui_ref.label_initstatus.text = "Initialised";
+        ui_ref.label_bannerrequired.text = status.geolocationRuleset.bannerRequiredAtLocation.ToString();
+        ui_ref.label_activeconfig.text = status.geolocationRuleset.activeSettingsId;
+        ui_ref.label_location.text = Usercentrics.Instance.GetCmpData().userLocation.countryCode.ToString() + "/" + Usercentrics.Instance.GetCmpData().userLocation.regionCode.ToString();
+        ui_ref.label_cid.text = Usercentrics.Instance.GetControllerId();
     }
 
-    private void showSpecificFirstLayer(UsercentricsLayout layout)
+    public void showSpecificFirstLayer(UsercentricsLayout layout)
     {
+        Dictionary<string, string> customBannerSettings = ui_ref.SetBannerSettings();
+
+        //TODO put banner settings back in with the styling menu
+        //general style
+        float textSize = float.Parse(customBannerSettings["textSize"]);
+        string textColor = customBannerSettings["textColor"];
+        string linkColor = customBannerSettings["linkColor"];
+        string layerBackgroundColor = customBannerSettings["layerBackgroundColor"];
+
         BannerSettings bannerSettings;
-        if (toggle_styles.isOn) //isOn = uses styles
-        {
-            var titleSettings = new TitleSettings(textSize: float.Parse(input_font_size.text), alignment: SectionAlignment.Center);
+      
+        var titleSettings = new TitleSettings(textSize: textSize, alignment: SectionAlignment.Center);
 
-            var messageSettings = new MessageSettings(textSize: float.Parse(input_font_size.text), alignment: SectionAlignment.Start, textColor: "#170087", linkTextColor: "#5633ff", underlineLink: true);
+        var messageSettings = new MessageSettings(textSize: textSize, alignment: SectionAlignment.Start, textColor: textColor, linkTextColor: linkColor, underlineLink: true);
 
-            bannerSettings = new BannerSettings(generalStyleSettings: new GeneralStyleSettings(androidDisableSystemBackButton: true),
+        bannerSettings = new BannerSettings(generalStyleSettings: new GeneralStyleSettings(
+                androidDisableSystemBackButton: Usercentrics.Instance.Options.Android.DisableSystemBackButton,
+                layerBackgroundColor: layerBackgroundColor
+                ),
                                   firstLayerStyleSettings: new FirstLayerStyleSettings(layout: layout,
                                            title: titleSettings,
-                                           message: messageSettings),
+                                           message: messageSettings
+                                           ),
         secondLayerStyleSettings: new SecondLayerStyleSettings(showCloseButton: true),
-                                  variantName: "");
-        }
-        else
-        {
-            bannerSettings = new BannerSettings();
-        }
-
-
+                                 variantName: "");
+        
+        
         Usercentrics.Instance.ShowFirstLayer(bannerSettings, usercentricsConsentUserResponse =>
         {
             UpdateServices(usercentricsConsentUserResponse.consents);
             displayUserResponseValues(usercentricsConsentUserResponse);
-
-
         });
     }
 
-    private void ShowFirstLayer()
+    public void ShowFirstLayer()
     {
         Usercentrics.Instance.ShowFirstLayer((usercentricsConsentUserResponse) =>
         {
             UpdateServices(usercentricsConsentUserResponse.consents);
             displayUserResponseValues(usercentricsConsentUserResponse);
-
-
         });
 
     }
 
-    private void ShowSecondLayer()
+    public void ShowSecondLayer()
     {
         Usercentrics.Instance.ShowSecondLayer(new BannerSettings(), (usercentricsConsentUserResponse) =>
         {
             UpdateServices(usercentricsConsentUserResponse.consents);
             displayUserResponseValues(usercentricsConsentUserResponse);
         });
-
     }
 
     private void UpdateServices(List<UsercentricsServiceConsent> consents)
     {
+        
         //update consents
         shouldCollectConsent = false;
 
-        //@TODO refactor & log better needed, need a utils script
         //logging toggles
-
-        if (toggle_getconsents.isOn)
+        if (ui_ref.toggle_getconsents.value)
         {
             Debug.Log("GetConsents:");
             List<UsercentricsServiceConsent> uc_consents = Usercentrics.Instance.GetConsents();
@@ -353,7 +221,7 @@ public class CMP_manager : MonoBehaviour
 
         }
 
-        if (toggle_gettcfdata.isOn)
+        if (ui_ref.toggle_gettcfdata.value)
         {
             UsercentricsVariant activeVariant = Usercentrics.Instance.GetCmpData().activeVariant;
             if (activeVariant == UsercentricsVariant.TCF)
@@ -363,6 +231,7 @@ public class CMP_manager : MonoBehaviour
                 Usercentrics.Instance.GetTCFData((tcfData) =>
                 {
                     /*
+                    
                     var purposes = tcfData.purposes;
                     var specialPurposes = tcfData.specialPurposes;
                     var features = tcfData.features;
@@ -372,9 +241,7 @@ public class CMP_manager : MonoBehaviour
 
                     */
 
-
                     // TCString
-
                     var tcString = tcfData.tcString;
                     Debug.Log(tcString);
                 });
@@ -384,7 +251,7 @@ public class CMP_manager : MonoBehaviour
                 Debug.Log("GetTCFData is enabled, but active variant is " + activeVariant.ToString());
             }
         }
-        if (toggle_getcmpdata.isOn)
+        if (ui_ref.toggle_getcmpdata.value)
         {
             Debug.Log("GetCMPData:");
             Debug.Log(Usercentrics.Instance.GetCmpData());
@@ -392,8 +259,7 @@ public class CMP_manager : MonoBehaviour
     }
 
     private void OutputLogsOnInit(UsercentricsReadyStatus status) {
-
-        if (toggle_getconsents_init.isOn)
+        if (ui_ref.toggle_getconsents_init.value)
         {
             Debug.Log("GetConsents:");
             List<UsercentricsServiceConsent> uc_consents = Usercentrics.Instance.GetConsents();
@@ -404,7 +270,7 @@ public class CMP_manager : MonoBehaviour
 
         }
 
-        if (toggle_gettcfdata_init.isOn)
+        if (ui_ref.toggle_getcmpdata_init.value)
         {
             UsercentricsVariant activeVariant = Usercentrics.Instance.GetCmpData().activeVariant;
             if (activeVariant == UsercentricsVariant.TCF)
@@ -413,6 +279,7 @@ public class CMP_manager : MonoBehaviour
                 Debug.Log("GetTCFData:");
                 Usercentrics.Instance.GetTCFData((tcfData) =>
                 {
+
                     /*
                     var purposes = tcfData.purposes;
                     var specialPurposes = tcfData.specialPurposes;
@@ -423,10 +290,9 @@ public class CMP_manager : MonoBehaviour
 
                     */
 
+        // TCString
 
-                    // TCString
-
-                    var tcString = tcfData.tcString;
+        var tcString = tcfData.tcString;
                     Debug.Log(tcString);
                 });
             }
@@ -435,28 +301,38 @@ public class CMP_manager : MonoBehaviour
                 Debug.Log("GetTCFData is enabled, but active variant is " + activeVariant.ToString());
             }
         }
-        if (toggle_getcmpdata_init.isOn)
+        if (ui_ref.toggle_getcmpdata_init.value)
         {
             Debug.Log("GetCMPData:");
             Debug.Log(Usercentrics.Instance.GetCmpData());
         }
-        if (toggle_geo_banner.isOn)
+        if (ui_ref.toggle_geo_banner_init.value)
         {
             Debug.Log("status.geolocationRuleset.bannerRequiredAtLocation:");
             Debug.Log(status.geolocationRuleset.bannerRequiredAtLocation.ToString());
         }
-        if (toggle_geo_config.isOn)
+        if (ui_ref.toggle_geo_config_init.value)
         {
             Debug.Log("status.geolocationRuleset.activeSettingsId:");
             Debug.Log(status.geolocationRuleset.activeSettingsId);
         }
     }
 
+    public void StoreController()
+    {
+        stored_cid = Usercentrics.Instance.GetControllerId();
+        ui_ref.label_storedcid.text = stored_cid;
+    }
+
+    public void RestoreUserSession()
+    {
+        RestoreSession(stored_cid);
+    }
 
     private void RestoreSession(string cid) {
         if (cid == "")
         {
-            Debug.Log("CID empty, please first set CID using the -Store CID- button, this will take current CID");
+            Debug.Log("CID empty, please first set CID using the -Store Controller ID- button, this will take current CID");
             return;
         }
 
@@ -479,10 +355,9 @@ public class CMP_manager : MonoBehaviour
 
     private void displayUserResponseValues(UsercentricsConsentUserResponse response)
     {
-        if (toggle_cid.isOn)
+        if (ui_ref.toggle_cid.value)
         {
             Debug.Log("Controller ID from User Response: "+response.controllerId);
-
         }
     }
 }
