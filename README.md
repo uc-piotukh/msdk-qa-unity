@@ -1,3 +1,0 @@
-# Sample app for Unity SDK
-
-Full feature description to come...
