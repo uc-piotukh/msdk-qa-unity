@@ -27,5 +27,6 @@ namespace Unity.Usercentrics
         string GetAdditionalConsentModeData();
         string GetConsents();
         void SetPurposesFlatlyNotAllowed(string purposes);
+        void ClearUserSession();
     }
 }

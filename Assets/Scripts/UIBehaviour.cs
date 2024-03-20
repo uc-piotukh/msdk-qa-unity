@@ -33,6 +33,8 @@ public class UIBehaviour : MonoBehaviour
     Button button_restore_session;
     Button button_settings_back;
     Button button_style_settings_back;
+    Button button_clear_cache;
+
 
     //toggle refs
     Toggle toggle_androidbackbutton;
@@ -100,6 +102,7 @@ public class UIBehaviour : MonoBehaviour
     string b_store_cid = "b_store_cid";
     string b_restore_session = "b_restore_session";
     string l_cid = "l_cid";
+    string b_cache = "b_cache";
 
     string ve_ui_settings = "ve_ui_settings";
     string t_androidbackbutton = "t_androidbackbutton";
@@ -169,6 +172,7 @@ public class UIBehaviour : MonoBehaviour
         button_restore_session = root.Q<Button>(b_restore_session);
         button_settings_back = root.Q<Button>(b_settings_back);
         button_style_settings_back = root.Q<Button>(b_style_back);
+        button_clear_cache = root.Q<Button>(b_cache);
 
         //toggle refs
         toggle_androidbackbutton = root.Q<Toggle>(t_androidbackbutton);
@@ -223,6 +227,8 @@ public class UIBehaviour : MonoBehaviour
         button_restore_session.clicked += RestoreSession;
         button_settings_back.clicked += CloseSettingsWindow;
         button_style_settings_back.clicked += CloseSettingsWindow;
+        button_clear_cache.clicked += ClearUserSession;
+
         textfield_config.RegisterCallback<InputEvent>(callback => manager.SetConfig(dropdown_config.value, callback.newData));
 
         toggle_androidbackbutton.RegisterCallback<ChangeEvent<bool>>(callback => Usercentrics.Instance.Options.Android.DisableSystemBackButton = callback.newValue);
@@ -257,6 +263,11 @@ public class UIBehaviour : MonoBehaviour
     private void InitialiseUC()
     {
         manager.CMP_Init();
+    }
+
+    private void ClearUserSession()
+    {
+        manager.CMP_ClearCache();
     }
 
     private void ResetUC()

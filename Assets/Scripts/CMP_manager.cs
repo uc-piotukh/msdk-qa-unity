@@ -127,6 +127,29 @@ public class CMP_manager : MonoBehaviour
         });
     }
 
+    public void CMP_ClearCache()
+    {
+        Usercentrics.Instance.ClearUserSession((usercentricsReadyStatus) =>
+        {
+            UpdateDisplayValues(usercentricsReadyStatus);
+            Debug.Log("Session Cleared Successfully!");
+
+            if (usercentricsReadyStatus.shouldCollectConsent)
+            {
+                shouldCollectConsent = usercentricsReadyStatus.shouldCollectConsent;
+                ShowFirstLayer();
+            }
+            else
+            {
+                UpdateServices(usercentricsReadyStatus.consents);
+            }
+        },
+        (errorMessage) =>
+        {
+            Debug.Log("Session Restore Error: " + errorMessage);
+        });
+    }
+
     public void CMP_Reset()
     {
         Usercentrics.Instance.Reset();

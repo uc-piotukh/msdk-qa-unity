@@ -45,13 +45,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SettingsID: 
+  RulesetID: 
   Options:
     DefaultLanguage: 
     Version: latest
     DebugMode: 1
     TimeoutMillis: 10000
     NetworkMode: 0
-  AdminInterface: https://account.usercentrics.eu
+    ConsentMediation: 0
+    Android:
+      DisableSystemBackButton: 1
+      StatusBarColor: 
+  ConfigurationDashboard: https://account.usercentrics.eu
   Documentation: https://usercentrics.com/docs/games/intro/
 --- !u!114 &8233563021425905443
 MonoBehaviour:
@@ -65,3 +70,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf8fd1d44a31436596d50528c9357a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Enabled: 1

@@ -20,9 +20,13 @@ namespace Unity.Usercentrics
 #if UNITY_EDITOR
         [InspectorLink] [SerializeField] internal string ConfigurationDashboard = "https://account.usercentrics.eu";
         [InspectorLink] [SerializeField] internal string Documentation = "https://usercentrics.com/docs/games/intro/";
+
+        [Header("SDK version:")]
+        [Tooltip("thingy")]
 #endif
         #endregion
 
+        TooltipAttribute UsercentricsVersion;
         private readonly IUsercentricsPlatform UsercentricsPlatform =
 #if UNITY_IOS
             new UsercentricsIOS();
@@ -41,6 +45,9 @@ namespace Unity.Usercentrics
 
         private UnityAction<UsercentricsReadyStatus> restoreSessionSuccessCallback;
         private UnityAction<string> restoreSessionErrorCallback;
+        
+        private UnityAction<UsercentricsReadyStatus> clearSessionSuccessCallback;
+        private UnityAction<string> clearSessionErrorCallback;
 
         #region USERCENTRICS API
         /// <summary>
@@ -466,6 +473,31 @@ namespace Unity.Usercentrics
             return usercentricsConsents;
         }
         #endregion
+        
+        /// <summary>
+        /// Clears user's session avoiding the sdk initialization.
+        /// </param>
+        /// <param name="successCallback">
+        /// Callback block that is invoked when the restoration completes successfully.
+        /// It returns UsercentricsReadyStatus.
+        /// </param>
+        /// <param name="initializeErrorCallback">
+        /// Callback block that is invoked when the initialize process finishes
+        /// with an error.
+        /// It returns a non-localized string with information about the error.
+        /// </param>
+        public void ClearUserSession(
+            UnityAction<UsercentricsReadyStatus> successCallback,
+            UnityAction<string> errorCallback
+        ){
+            ensureSupportedPlatform();
+            logDebug("ClearUserSession invoked");
+
+            this.clearSessionSuccessCallback = successCallback;
+            this.clearSessionErrorCallback = errorCallback;
+
+            UsercentricsPlatform?.ClearUserSession();
+        }
 
         #region UTILS
 
@@ -605,6 +637,22 @@ namespace Unity.Usercentrics
             var usercentricsMediationEvent = JsonUtility.FromJson<UsercentricsMediationEvent>(rawUsercentricsMediationEvent);
             this.onConsentMediationCallbacks?.ForEach(callback => callback.Invoke(usercentricsMediationEvent));
         }
+        
+        internal void HandleClearSuccess(string rawUsercentricsReadyStatus)
+        {
+            logDebug("HandleClearSuccess UsercentricsReadyStatus=" + rawUsercentricsReadyStatus);
+            var usercentricsReadyStatus = JsonUtility.FromJson<UsercentricsReadyStatus>(rawUsercentricsReadyStatus);
+            this.clearSessionSuccessCallback?.Invoke(usercentricsReadyStatus);
+            this.clearSessionSuccessCallback = null;
+        }
+
+        internal void HandleClearError(string errorMessage)
+        {
+            logDebug("HandleClearError errorMessage=" + errorMessage);
+            this.clearSessionErrorCallback?.Invoke(errorMessage);
+            this.clearSessionErrorCallback = null;
+        }
+        
 #pragma warning restore IDE0051 // Remove unused private members
         #endregion
     }

@@ -75,6 +75,9 @@ namespace Unity.Usercentrics
 
         [DllImport("__Internal")]
         private static extern string ucSetPurposesFlatlyNotAllowed(string purposes);
+        
+        [DllImport("__Internal")]
+        private static extern void ucClearUserSession();
 
         public void Initialize(string initArgsJson)
         {
@@ -189,6 +192,11 @@ namespace Unity.Usercentrics
         public void SetPurposesFlatlyNotAllowed(string purposes)
         {
             ucSetPurposesFlatlyNotAllowed(purposes);
+        }
+        
+        public void ClearUserSession()
+        {
+            ucClearUserSession();
         }
     }
 }

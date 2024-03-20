@@ -135,5 +135,10 @@ namespace Unity.Usercentrics
         {
             _usercentricsUnityClass.Value.CallStatic("setPurposesFlatlyNotAllowed", purposes);
         }
+        
+        public void ClearUserSession()
+        {
+            _usercentricsUnityClass.Value.CallStatic("clearUserSession");
+        }
     }
 }

@@ -260,8 +260,6 @@ namespace Unity.Usercentrics
         public bool showLegitimateInterestToggle;
         public bool usesNonCookieAccess;
         public string deviceStorageDisclosureUrl = null;
-        [Obsolete("replaces to deviceStorageDisclosureUrl, this field will be removed in the upcoming version")]
-        public ConsentDisclosureObject deviceStorage = null;
         public bool usesCookies = false;
         public bool cookieRefresh;
         public bool dataSharedOutsideEU;
@@ -317,54 +315,6 @@ namespace Unity.Usercentrics
         NotAllowed,
         RequireConsent,
         RequireLi
-    }
-
-    [Serializable]
-    public class ConsentDisclosureObject
-    {
-        public List<ConsentDisclosure> disclosures = new List<ConsentDisclosure>();
-    }
-
-    [Serializable]
-    public class ConsentDisclosure
-    {
-        public string identifier = null;
-        public string name = null;
-        public bool cookieRefresh = false;
-        public List<int> purposes = new List<int>();
-        public string domain = null;
-        public string description = null;
-        public string _type;
-        public string _maxAgeSeconds;
-
-        public ConsentDisclosureType? type
-        {
-            get
-            {
-                var intValue = StringParser.ToInt(_type);
-                if (intValue == null)
-                {
-                    return null;
-                }
-                return (ConsentDisclosureType) intValue;
-            }
-        }
-
-        public long? maxAgeSeconds
-        {
-            get
-            {
-                return StringParser.ToLong(_maxAgeSeconds);
-            }
-        }
-    }
-
-    [Serializable]
-    public enum ConsentDisclosureType
-    {
-        Cookie,
-        Web,
-        App
     }
 
     [Serializable]

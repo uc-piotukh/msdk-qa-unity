@@ -126,4 +126,8 @@ extern "C" {
     void ucSetPurposesFlatlyNotAllowed(const char* purposes) {
         [[UsercentricsUsercentricsUnityCompanion companion] setPurposesFlatlyNotAllowedPurposes:UcCreateNSString(purposes)];
     }
+    
+    void ucClearUserSession() {
+        [[UsercentricsUsercentricsUnityCompanion companion] clearUserSession];
+    }
 }

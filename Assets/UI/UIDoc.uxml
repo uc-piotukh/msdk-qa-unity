@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/UI/ui_uss.uss?fileID=7433441132597879392&amp;guid=f8fede3668754439a9774e6016645956&amp;type=3#ui_uss" />
     <ui:VisualElement name="ve_globalwrapper" style="background-color: rgb(51, 0, 96); width: 100%; height: 100%; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 2%;">
         <ui:VisualElement name="ve_SAFEAREA" style="padding-top: 10%;">
-            <ui:VisualElement name="ve_ui_main" style="display: none;">
+            <ui:VisualElement name="ve_ui_main" style="display: flex;">
                 <ui:VisualElement name="ve_init">
                     <ui:Label text="Select Settings or Ruleset to initialise with:" display-tooltip-when-elided="true" style="align-items: stretch; justify-content: center; -unity-text-align: upper-center;" />
                     <ui:VisualElement style="flex-direction: row; justify-content: center; width: 100%;">
@@ -16,6 +16,9 @@
                     <ui:VisualElement style="flex-direction: row; justify-content: space-around; flex-grow: 1; width: 100%;">
                         <ui:VisualElement style="width: 50%;">
                             <ui:Button text="Init" display-tooltip-when-elided="true" name="b_init" style="flex-grow: 1; width: auto; background-color: rgb(146, 255, 184);" />
+                        </ui:VisualElement>
+                        <ui:VisualElement style="width: 50%;">
+                            <ui:Button text="Clear Cache" display-tooltip-when-elided="true" name="b_cache" style="flex-grow: 1; width: auto; background-color: rgb(255, 249, 148);" />
                         </ui:VisualElement>
                         <ui:VisualElement style="width: 50%;">
                             <ui:Button text="Reset" display-tooltip-when-elided="true" name="b_reset" style="flex-grow: 1; width: auto; background-color: rgb(255, 148, 148);" />
@@ -76,7 +79,7 @@
                     <ui:Label text="0a82927d245b88e63cf3d4656e691b0d31315d91c047fc57e1b257510e523710" display-tooltip-when-elided="true" name="l_storedcid" style="align-items: center; -unity-text-align: upper-center; font-size: 9px; justify-content: flex-end; margin-top: 5px; margin-bottom: 5px; margin-left: 0; margin-right: 0; -unity-font: url(&apos;project://database/Library/unity%20default%20resources?fileID=10102&amp;guid=0000000000000000e000000000000000&amp;type=0#Arial&apos;); -unity-font-style: bold; color: rgb(189, 255, 252);" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="ve_ui_style" style="display: flex; visibility: visible;">
+            <ui:VisualElement name="ve_ui_style" style="display: none; visibility: visible;">
                 <ui:VisualElement name="ve_settings_wrapper" style="width: 100%; height: 100%; padding-left: 5%; padding-right: 5%; padding-top: 5%; padding-bottom: 5%;">
                     <ui:VisualElement name="ve_settings_wrapper" style="width: 100%; height: 100%; padding-left: 2%; padding-right: 2%; padding-top: 2%; padding-bottom: 2%; background-color: rgba(19, 102, 161, 0.48); border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 11px; border-bottom-left-radius: 11px; border-top-right-radius: 11px; border-bottom-right-radius: 11px; min-width: auto;">
                         <ui:SliderInt picking-mode="Ignore" label="textSize" value="12" high-value="20" low-value="10" show-input-field="true" name="si_fontsize" style="min-height: 35px; flex-direction: row; justify-content: space-around; align-items: stretch; flex-wrap: nowrap; width: 100%;" />
