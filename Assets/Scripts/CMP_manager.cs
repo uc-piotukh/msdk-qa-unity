@@ -10,8 +10,6 @@ public class CMP_manager : MonoBehaviour
     public UIBehaviour ui_ref;
 
     //utils
-    bool shouldCollectConsent = false;
-    GameObject go_utils;
     string stored_cid = "";
     string tcf_preset = "WGSo-AvsCxM5d2";
     string gdpr_preset = "r4Tyqt9N1aLq_d";
@@ -112,7 +110,6 @@ public class CMP_manager : MonoBehaviour
             
             if (usercentricsReadyStatus.shouldCollectConsent)
             {
-                shouldCollectConsent = usercentricsReadyStatus.shouldCollectConsent;
                 ShowFirstLayer();
             }
             else
@@ -136,7 +133,6 @@ public class CMP_manager : MonoBehaviour
 
             if (usercentricsReadyStatus.shouldCollectConsent)
             {
-                shouldCollectConsent = usercentricsReadyStatus.shouldCollectConsent;
                 ShowFirstLayer();
             }
             else
@@ -228,10 +224,6 @@ public class CMP_manager : MonoBehaviour
 
     private void UpdateServices(List<UsercentricsServiceConsent> consents)
     {
-        
-        //update consents
-        shouldCollectConsent = false;
-
         //logging toggles
         if (ui_ref.toggle_getconsents.value)
         {
@@ -241,7 +233,6 @@ public class CMP_manager : MonoBehaviour
             {
                 Debug.Log("Consent: " + consent.dataProcessor + " / " + consent.status.ToString());
             }
-
         }
 
         if (ui_ref.toggle_gettcfdata.value)
