@@ -8,25 +8,22 @@ using System.ComponentModel;
 namespace Unity.Usercentrics
 {
     /// <summary>
-    /// Usercentrics Consent Management Platform (c) 2022.
+    /// Usercentrics Consent Management Platform (c) 2024.
     /// It gives access to the singleton (Instance) and the whole API.
     /// </summary>
     public class Usercentrics : Singleton<Usercentrics>
     {
         #region INSPECTOR FIELDS
+        [Header("Enter either Settings ID or Ruleset ID")]
         [SerializeField] public string SettingsID = "";
         [SerializeField] public string RulesetID = "";
         [SerializeField] public UsercentricsOptions Options = new UsercentricsOptions();
 #if UNITY_EDITOR
         [InspectorLink] [SerializeField] internal string ConfigurationDashboard = "https://account.usercentrics.eu";
         [InspectorLink] [SerializeField] internal string Documentation = "https://usercentrics.com/docs/games/intro/";
-
-        [Header("SDK version:")]
-        [Tooltip("thingy")]
 #endif
         #endregion
 
-        TooltipAttribute UsercentricsVersion;
         private readonly IUsercentricsPlatform UsercentricsPlatform =
 #if UNITY_IOS
             new UsercentricsIOS();
@@ -115,24 +112,6 @@ namespace Unity.Usercentrics
         /// <summary>
         /// Show Usercentrics Banner's First Layer.
         /// </summary>
-        /// <param name="layout">
-        /// Banner predefined layout type, check UsercentricsLayout enum.
-        /// </param>
-        /// <param name="onDismissCallback">
-        /// Callback block that is invoked when the user performs an action on the Banner.
-        /// </param>
-        [Obsolete("ShowFirstLayer(layout, onDismissCallback) has been deprecated. Use ShowFirstLayer(bannerSettings, onDismissCallback) instead")]
-        public void ShowFirstLayer(UsercentricsLayout layout, UnityAction<UsercentricsConsentUserResponse> onDismissCallback)
-        {
-            var bannerSettings = new BannerSettings(generalStyleSettings: GetGeneralStyleSettingsFromOptions(),
-                                                    firstLayerStyleSettings: new FirstLayerStyleSettings(layout: layout),
-                                                    variantName: null);
-            ShowFirstLayer(bannerSettings: bannerSettings, onDismissCallback: onDismissCallback);
-        }
-
-        /// <summary>
-        /// Show Usercentrics Banner's First Layer.
-        /// </summary>
         /// <param name="bannerSettings"></param>
         /// Sends the customization configuration for the banner
         /// </param>
@@ -151,25 +130,6 @@ namespace Unity.Usercentrics
             var bannerSettingsJson = JsonUtility.ToJson(bannerSettingsWithOptions);
 
             UsercentricsPlatform?.ShowFirstLayer(bannerSettingsJson);
-        }
-
-        /// <summary>
-        /// Show Usercentrics Banner's First Layer.
-        /// </summary>
-        /// <param name="showCloseButton">
-        /// Boolean flag to either show or hide close button located at the top of the screen.
-        /// </param>
-        /// <param name="onDismissCallback">
-        /// Callback block that is invoked when the user performs an action on the Banner.
-        /// </param>
-        [Obsolete("ShowSecondLayer(showCloseButton, onDismissCallback) has been deprecated. Use ShowSecondLayer(bannerSettings, onDismissCallback) instead")]
-        public void ShowSecondLayer(bool showCloseButton, UnityAction<UsercentricsConsentUserResponse> onDismissCallback)
-        {
-            var bannerSettings = new BannerSettings(generalStyleSettings: GetGeneralStyleSettingsFromOptions(),
-                                                    firstLayerStyleSettings: null,
-                                                    secondLayerStyleSettings: new SecondLayerStyleSettings(showCloseButton: showCloseButton),
-                                                    variantName: null);
-            ShowSecondLayer(bannerSettings: bannerSettings, onDismissCallback: onDismissCallback);
         }
 
         /// <summary>
@@ -315,6 +275,7 @@ namespace Unity.Usercentrics
         /// <summary>
         /// Resets Usercentrics SDK, deleting all local data and forcing to be initialized again.
         /// </summary>
+        [Obsolete("This method will soon be removed, replace it to ClearUserSession() method instead")]
         public void Reset()
         {
             ensureSupportedPlatform();
@@ -571,7 +532,11 @@ namespace Unity.Usercentrics
         {
             var isSystemBackButtonDisabled = Options.Android.DisableSystemBackButton;
             var statusBarColor = Options.Android.StatusBarColor;
-            return new GeneralStyleSettings(androidDisableSystemBackButton: isSystemBackButtonDisabled, androidStatusBarColor: statusBarColor);
+            var showWindowInFullscreen = Options.Android.ShowWindowInFullscreen;
+
+            return new GeneralStyleSettings(androidDisableSystemBackButton: isSystemBackButtonDisabled,
+                                            androidStatusBarColor: statusBarColor,
+                                            androidWindowFullscreen: showWindowInFullscreen);
         }
         #endregion
 

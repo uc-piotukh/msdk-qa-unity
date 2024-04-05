@@ -23,6 +23,7 @@ namespace Unity.Usercentrics
     {
         public bool DisableSystemBackButton = true;
         public string StatusBarColor = "";
+        public bool ShowWindowInFullscreen = true;
     }
     #endregion
 

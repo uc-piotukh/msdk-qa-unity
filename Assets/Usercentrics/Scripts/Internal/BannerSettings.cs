@@ -28,6 +28,7 @@ namespace Unity.Usercentrics
     {
         public bool androidDisableSystemBackButton;
         public string androidStatusBarColor;
+        public bool androidWindowFullscreen;
         public string textColor;
         public string layerBackgroundColor;
         public string layerBackgroundSecondaryColor;
@@ -42,6 +43,7 @@ namespace Unity.Usercentrics
 
         public GeneralStyleSettings(bool androidDisableSystemBackButton = true,
                                     string androidStatusBarColor = "",
+                                    bool androidWindowFullscreen = true,
                                     string textColor = "",
                                     string layerBackgroundColor = "",
                                     string layerBackgroundSecondaryColor = "",
@@ -54,6 +56,7 @@ namespace Unity.Usercentrics
         {
             this.androidDisableSystemBackButton = androidDisableSystemBackButton;
             this.androidStatusBarColor = androidStatusBarColor;
+            this.androidWindowFullscreen = androidWindowFullscreen;
             this.textColor = textColor;
             this.layerBackgroundColor = layerBackgroundColor;
             this.layerBackgroundSecondaryColor = layerBackgroundSecondaryColor;

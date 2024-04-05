@@ -1548,6 +1548,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5543985822248930565, guid: cf74ce6dd372d499f9cd1c0a2ed26f72,
         type: 3}
+      propertyPath: Options.Android.ShowWindowInFullscreen
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543985822248930565, guid: cf74ce6dd372d499f9cd1c0a2ed26f72,
+        type: 3}
       propertyPath: Options.Android.DisableSystemBackButton
       value: 1
       objectReference: {fileID: 0}

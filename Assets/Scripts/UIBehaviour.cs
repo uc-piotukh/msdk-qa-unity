@@ -19,7 +19,6 @@ public class UIBehaviour : MonoBehaviour
 
     //button refs
     Button button_init;
-    Button button_reset;
     Button button_fl_remote;
     Button button_sl_remote;
     Button button_fl_pc;
@@ -40,6 +39,7 @@ public class UIBehaviour : MonoBehaviour
     Toggle toggle_androidbackbutton;
     Toggle toggle_consentmediation;
     Toggle toggle_preview;
+    [HideInInspector] public Toggle toggle_fullscreen;
     [HideInInspector] public Toggle toggle_limitpurposes;
     [HideInInspector] public Toggle toggle_getconsents_init;
     [HideInInspector] public Toggle toggle_getcmpdata_init;
@@ -60,6 +60,8 @@ public class UIBehaviour : MonoBehaviour
     [HideInInspector] public Label label_bannerrequired;
     [HideInInspector] public Label label_cid;
     [HideInInspector] public Label label_storedcid;
+    Label label_sdk_version;
+    
 
 
     //text fields
@@ -84,7 +86,6 @@ public class UIBehaviour : MonoBehaviour
     string df_configuration = "df_configuration";
     string tf_customconfig = "tf_customconfig";
     string b_init = "b_init";
-    string b_reset = "b_reset";
     string l_initstatus = "l_initstatus";
     string l_styling = "l_styling";
     string b_fl_remote = "b_fl_remote";
@@ -103,6 +104,7 @@ public class UIBehaviour : MonoBehaviour
     string b_restore_session = "b_restore_session";
     string l_cid = "l_cid";
     string b_cache = "b_cache";
+    string sdk_version = "sdk_version";
 
     string ve_ui_settings = "ve_ui_settings";
     string t_androidbackbutton = "t_androidbackbutton";
@@ -129,6 +131,7 @@ public class UIBehaviour : MonoBehaviour
     string tf_linkColor = "tf_linkColor";
     string tf_bordersColor = "tf_bordersColor";
     string l_storedcid = "l_storedcid";
+    string t_fullscreen = "t_fullscreen";
 
     /*PLACEHOLDER BLOCK
      
@@ -158,7 +161,6 @@ public class UIBehaviour : MonoBehaviour
 
         //button refs
         button_init = root.Q<Button>(b_init);
-        button_reset = root.Q<Button>(b_reset);
         button_fl_remote = root.Q<Button>(b_fl_remote);
         button_sl_remote = root.Q<Button>(b_sl_remote);
         button_fl_pc = root.Q<Button>(b_fl_pc);
@@ -189,6 +191,7 @@ public class UIBehaviour : MonoBehaviour
         toggle_getconsents = root.Q<Toggle>(t_getconsents);
         toggle_geo_banner_init = root.Q<Toggle>(t_geo_banner_init);
         toggle_geo_config_init = root.Q<Toggle>(t_geo_config_init);
+        toggle_fullscreen = root.Q<Toggle>(t_fullscreen);
 
         //label refs
         label_initstatus = root.Q<Label>(l_initstatus);
@@ -198,6 +201,7 @@ public class UIBehaviour : MonoBehaviour
         label_bannerrequired = root.Q<Label>(l_bannerrequired);
         label_cid = root.Q<Label>(l_cid);
         label_storedcid = root.Q<Label>(l_storedcid);
+        label_sdk_version = root.Q<Label>(sdk_version);
 
         //text fields
         textfield_config = root.Q<TextField>(tf_customconfig);
@@ -213,7 +217,6 @@ public class UIBehaviour : MonoBehaviour
     private void PrepareListeners()
     {
         button_init.clicked += InitialiseUC;
-        button_reset.clicked += ResetUC;
         button_fl_remote.clicked += OpenFLRC;
         button_sl_remote.clicked += OpenSLR;
         button_fl_pc.clicked += OpenFLPC;
@@ -250,6 +253,7 @@ public class UIBehaviour : MonoBehaviour
         manager.ChangeDropdown(dropdown_config.value);
         label_storedcid.text = "n/a";
         label_cid.text = "n/a";
+        label_sdk_version.text = manager.sdk_version;
 
         bannerSettings = SetBannerSettings();
     }
@@ -270,10 +274,6 @@ public class UIBehaviour : MonoBehaviour
         manager.CMP_ClearCache();
     }
 
-    private void ResetUC()
-    {
-        manager.CMP_Reset();
-    }
     private void OpenFLRC()
     {
         manager.ShowFirstLayer();

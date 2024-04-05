@@ -1,6 +1,6 @@
 <dependencies>
   <packages>
-    <package>com.usercentrics.sdk:usercentrics-ui-unity:[2.13.2-unity]</package>
+    <package>com.usercentrics.sdk:usercentrics-ui-unity:[2.14.1-unity]</package>
     <package>org.jetbrains.kotlin:kotlin-stdlib-jdk8:[1.8.0]</package>
   </packages>
   <files />
@@ -17,6 +17,8 @@
     <setting name="patchAndroidManifest" value="True" />
     <setting name="patchMainTemplateGradle" value="True" />
     <setting name="projectExportEnabled" value="True" />
+    <setting name="useFullCustomMavenRepoPathWhenExport" value="True" />
+    <setting name="useFullCustomMavenRepoPathWhenNotExport" value="False" />
     <setting name="useJetifier" value="True" />
   </settings>
 </dependencies>

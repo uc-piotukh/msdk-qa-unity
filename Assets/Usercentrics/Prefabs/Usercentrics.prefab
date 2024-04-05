@@ -56,6 +56,7 @@ MonoBehaviour:
     Android:
       DisableSystemBackButton: 1
       StatusBarColor: 
+      ShowBannerInFullscreen: 1
   ConfigurationDashboard: https://account.usercentrics.eu
   Documentation: https://usercentrics.com/docs/games/intro/
 --- !u!114 &8233563021425905443

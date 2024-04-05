@@ -1,7 +1,6 @@
 // Android Resolver Repos Start
 ([rootProject] + (rootProject.subprojects as List)).each { project ->
     project.repositories {
-        def unityProjectPath = $/file:///**DIR_UNITYPROJECT**/$.replace("\\", "/")
         maven {
             url "https://maven.google.com"
         }
@@ -16,7 +15,7 @@ apply plugin: 'com.android.library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 // Android Resolver Dependencies Start
-    implementation 'com.usercentrics.sdk:usercentrics-ui-unity:[2.13.2-unity]' // Assets/Usercentrics/Editor/UsercentricsDependencies.xml:4
+    implementation 'com.usercentrics.sdk:usercentrics-ui-unity:[2.14.1-unity]' // Assets/Usercentrics/Editor/UsercentricsDependencies.xml:4
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:[1.8.0]' // Assets/Usercentrics/Editor/UsercentricsDependencies.xml:3
 // Android Resolver Dependencies End
 **DEPS**}

@@ -15,9 +15,8 @@ public class CMP_manager : MonoBehaviour
     string gdpr_preset = "r4Tyqt9N1aLq_d";
     string ccpa_preset = "282E1MUwpv79wz";
     string ruleset_preset = "_d8jnCQKnUC5pV";
+    [HideInInspector] public string sdk_version = "2.14.0";
 
-    
-    
 
     public void ChangeDropdown(string value)
     {
@@ -95,14 +94,6 @@ public class CMP_manager : MonoBehaviour
 
     public void CMP_Init()
     {
-        
-        if (ui_ref.toggle_limitpurposes.value) {
-            int[] limited_purposes = {3,4,5,6};
-            Usercentrics.Instance.SetPurposesFlatlyNotAllowed(limited_purposes);
-            Debug.Log("Purposes 3,4,5,6 are no longer showing or gathering consent!");
-        }
-        
-
         Usercentrics.Instance.Initialize((usercentricsReadyStatus) =>
         {
             UpdateDisplayValues(usercentricsReadyStatus);
@@ -146,18 +137,6 @@ public class CMP_manager : MonoBehaviour
         });
     }
 
-    public void CMP_Reset()
-    {
-        Usercentrics.Instance.Reset();
-
-        ui_ref.label_bannerrequired.text = "n/a";
-        ui_ref.label_activeconfig.text = "n/a";
-        ui_ref.label_location.text = "n/a";
-        ui_ref.label_cid.text = "n/a";
-        ui_ref.label_initstatus.text = "Not initialised";
-
-    }
-
     private void UpdateDisplayValues(UsercentricsReadyStatus status)
     {
         ui_ref.label_initstatus.text = "Initialised";
@@ -177,6 +156,7 @@ public class CMP_manager : MonoBehaviour
         string textColor = customBannerSettings["textColor"];
         string linkColor = customBannerSettings["linkColor"];
         string layerBackgroundColor = customBannerSettings["layerBackgroundColor"];
+        //bool fullscreen = ui_ref.toggle_fullscreen.value;
 
         BannerSettings bannerSettings;
       
